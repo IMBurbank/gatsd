@@ -19,7 +19,7 @@
 #
 # Call from host project dir to run any command in Docker container.
 
-# shellcheck source=gatsd/_build_env
+# shellcheck source=gatsd/_build-env
 . "$(dirname $0)/_build-env"
 
 docker run \

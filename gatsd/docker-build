@@ -103,7 +103,7 @@ GATSBY_PORT=${GATSBY_PORT}
 TAG_NAME=${tag_name}
 ENV
 
-gatsd_files="${gatsd_files} _gatsd-shim _build_env"
+gatsd_files="${gatsd_files} _gatsd-shim _build-env"
 for el in ${gatsd_files}; do
 	chmod +x "$el"
 done

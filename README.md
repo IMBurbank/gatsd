@@ -75,7 +75,7 @@ The following commands are available
 
 Commands can be called from the local project directory using shortcuts to standard Gatsd commands:
 ```
-./gatsd/[gatsd command]
+./gatsd/[gatsd-command]
 
 # Ex:
 ./gatsd/stage
@@ -83,7 +83,7 @@ Commands can be called from the local project directory using shortcuts to stand
 
 Or sending commands directly into the container with `run`
 ```
-./gatsd/run [any command]
+./gatsd/run [any-command]
 
 # Example running gatsd command in container without shortcut:
 ./gatsd/run gatsd stage
