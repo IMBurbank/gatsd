@@ -13,10 +13,11 @@ mkdir gatsby-site
 cd gatsby-site
 ```
 
-2.  Download gatsd directory into new site.
+2.  Download gatsd sub-directory into new site.
 
 ```
-curl -L https://api.github.com/repos/imburbank/gatsd/gatsd/tarball | tar xz
+GATSD_VER=0.1.0
+curl -L https://www.github.com/imburbank/gatsd/archive/${GATSD_VER}.tar.gz | tar xzv gatsd-${GATSD_VER}/gatsd/ --strip=1
 ```
 
 3. Build GatsD Docker container.
