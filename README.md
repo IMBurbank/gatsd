@@ -16,7 +16,7 @@ cd gatsby-site
 2.  Download gatsd sub-directory into new site.
 
 ```
-RELEASE=0.1.0
+RELEASE=0.2.0
 curl -L https://www.github.com/imburbank/gatsd/archive/${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
