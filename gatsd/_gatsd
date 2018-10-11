@@ -1,0 +1,188 @@
+#!/bin/bash
+
+# Copyright 2018 Isaac Burbank. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+#
+# GatsD CLI
+#
+# Handles all GatsD commands and passes through any unused options
+
+
+##### CONSTANTS #####
+SITE_NAME=${SITE_NAME}
+WORK_DIR=${WORK_DIR}
+GATSBY_PORT=${GATSBY_PORT}
+DOWNLOAD_URL_BASE=https://api.github.com/repos
+
+
+##### VARIABLES #####
+download_url=
+pass=()
+
+
+##### FLAGS #####
+host=0.0.0.0					# flag -H --host
+port=${GATSBY_PORT}				# flag -p --port
+
+
+##### FUNCTIONS #####
+_help() {
+	cat <<- HELP
+		########################################################
+		#                                                      #
+		#                     GatsD CLI                        # 
+		#                                                      #
+		########################################################
+
+		Run GatsbyJS commands inside a Docker container.
+
+		Flags:
+
+		-h --help	Print GatsD help commands
+					to console
+		-H --host	Set host for standard GatsD
+					command [develop|build|serve|stage]
+		-p --port	Set port for standard GatsD
+					command [develop|build|serve|stage]
+
+		Commands:
+
+		develop		Start hot-reloading dev environment
+					inside Docker container.
+					Defaults: host=0.0.0.0
+		build		Invoke 'gatsby build' inside container
+					to generate production build of site.
+		serve		Start a local html server from inside
+					container to serve local build of site.
+					Defaults: host=0.0.0.0 port=8000
+		stage		Build and serve production build of site
+					locally using 'gatsd build' and 
+					'gatsd serve' defaults
+
+		Ex: gatsd stage -H 0.0.0.0 --port 8000
+
+	HELP
+}
+
+_pars_args() {
+	while getopts ":H:p:-:" flag; do
+		case "${flag}" in
+			-) 
+				case "${OPTARG}" in
+					host)
+						host="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+						;;
+					host=*)
+						host=${OPTARG#*=}
+						opt=${OPTARG%=$host}
+						;;
+					port)
+						port="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+						;;
+					port=*)
+						port=${OPTARG#*=}
+						opt=${OPTARG%=$port}
+						;;
+					*)
+						pass+=( "--$OPTARG" )
+						if [[ ${@: OPTIND:1} != -* ]]; then
+							pass+=( "${@: OPTIND:1}" )
+							(( ++OPTIND ))
+						fi
+						;;
+				esac
+				;;
+			H) 
+				host="${OPTARG}"
+				;;
+			p) 
+				port="${OPTARG}"
+				;;
+			*) 
+				pass+=( "-$OPTARG" )
+				if [[ ${@: OPTIND:1} != -* ]]; then
+					pass+=( "${@: OPTIND:1}" )
+					(( ++OPTIND ))
+				fi
+				;;
+		esac
+	done
+	shift $((OPTIND - 1))
+	pass+=( "$@" )	
+}
+
+_new_site() {
+    [[ "$1" == "${SITE_NAME}" ]] && shift
+	
+    if [[ "$1" != http?(s)://github.com/* ]]; then
+		cat <<- WARN
+			To create a new site, please use 'new <site>'. For example:
+			new https://github.com/gatsbyjs/gatsby-starter-default
+			Site-name argument isn't needed. Current dir will be used.
+		WARN
+		return 1
+    fi
+
+	download_url=${DOWNLOAD_URL_BASE}/${1#*.com/}
+
+	cd ${WORK_DIR}
+    echo "Downloading from ${download_url} to $(pwd)"
+    curl -L ${download_url}/tarball | tar xz --strip=1
+
+	if [[ ! -e "package.json" ]]; then
+		echo "Site creation error: No package.json found."
+		return 1
+	elif [[ -e "package-lock.json" ]]; then
+		rm package-lock.json
+	fi
+
+    echo "Initializing node_modules with yarn"
+    yarn install
+}
+
+
+##### RUN #####
+case $1 in
+	-*|help)
+		_help && exit 0
+		;;
+    new)
+    	shift
+        _new_site $@ || { echo "Exiting"; exit 1; }
+        ;;
+	build)
+		shift
+		_pars_args $@
+		gatsby build ${pass[@]}
+		;;
+	develop)
+		shift
+		_pars_args $@
+		gatsby develop --host ${host} ${pass[@]}
+		;;
+	serve)
+		shift
+		_pars_args $@
+		gatsby serve -H ${host} -p ${port} ${pass[@]}
+		;;
+	stage)
+		shift
+		_pars_args $@
+		gatsby build && gatsby serve -H ${host} -p ${port} ${pass[@]}
+		;;
+    *)
+		exec $@
+		;;
+esac

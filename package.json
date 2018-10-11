@@ -1,0 +1,32 @@
+{
+  "name": "gatsd",
+  "version": "0.1.0",
+  "description": "Dockerize Your GatsbyJS Project",
+  "main": "n/a",
+  "scripts": {
+    "test": "echo \"Hello, test.\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IMBurbank/gatsd.git"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsbyjs",
+    "gatsd",
+    "docker",
+    "container",
+    "dockerize",
+    "dockerizer",
+    "containerize",
+    "containerizer",
+    "static-site",
+    "generator"
+  ],
+  "author": "Isaac Burbank",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/IMBurbank/gatsd/issues"
+  },
+  "homepage": "https://github.com/IMBurbank/gatsd#readme"
+}

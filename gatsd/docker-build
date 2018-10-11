@@ -1,0 +1,126 @@
+#!/bin/bash
+
+# Copyright 2018 Isaac Burbank. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+#
+# Docker Build
+#
+# Call from host project dir to build docker image
+
+cd $(dirname $0)
+
+
+##### CONSTANTS #####
+GATSBY_DIR=$(dirname $(pwd))
+SITE_NAME=$(basename ${GATSBY_DIR})
+WORK_DIR=/${SITE_NAME}
+GATSD_DIRNAME=$(basename $(pwd))
+GATSD_DIR=${WORK_DIR}/${GATSD_DIRNAME}
+GATSBY_PORT=8000
+
+
+##### VARIABLES #####
+gatsd_files="_gatsd build develop new run serve stage"
+tag_name=$1
+
+
+##### RUN #####
+if [ -z "${tag_name}" ]; then
+	tag_name=${SITE_NAME}
+fi
+
+cat << SHIM > _gatsd-shim
+#!/bin/bash
+
+# Copyright 2018 Isaac Burbank. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+#
+# GatsD Shim
+#
+# ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
+#
+# Shim to gatsby-docker.sh in project dir
+
+${GATSD_DIR}/_gatsd \$@
+SHIM
+
+cat << ENV > _build-env
+# Copyright 2018 Isaac Burbank. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+#
+# GatsD Build Environment
+#
+# ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
+#
+# Docker container build environment
+GATSBY_DIR=${GATSBY_DIR}
+SITE_NAME=${SITE_NAME}
+WORK_DIR=${WORK_DIR}
+GATSD_DIR=${GATSD_DIR}
+GATSD_DIRNAME=${GATSD_DIRNAME}
+GATSBY_PORT=${GATSBY_PORT}
+TAG_NAME=${tag_name}
+ENV
+
+chmod +x _gatsd-shim
+chmod +x _build-env
+
+cd ${GATSBY_DIR}
+
+#
+# Modify docker build as needed 
+#
+docker build \
+	-f ${GATSD_DIRNAME}/Dockerfile \
+	-t ${tag_name} \
+	--build-arg  WORK_DIR=${WORK_DIR} \
+	--build-arg  SITE_NAME=${SITE_NAME} \
+	--build-arg  GATSD_DIR=${GATSD_DIR} \
+	--build-arg  GATSD_DIRNAME=${GATSD_DIRNAME} \
+	--build-arg  GATSBY_PORT=${GATSBY_PORT} \
+	. \
+	&& \
+cat <<- INFO
+	-------------------------------------------------------------------
+	Docker build complete. Run: gatsd/new <site-url>
+	to download initialize a gatsby site from the site-url.
+	NOTE: Only github repo urls can be used (https://github.com/*)
+	NOTE: Name of current working directory will be used for site name
+	-------------------------------------------------------------------
+INFO
