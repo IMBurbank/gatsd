@@ -119,3 +119,33 @@ whoami
 
 gatsby develop -H 0.0.0.0
 ```
+
+## Calling `docker` directly
+
+The commands provided for this docker image are for convenience only - they are not required. You can also use docker directly with this project.
+
+The `docker-build` file is used to create a default container for this project. `docker build` can also be called directly (read the `docker-build` script for inspiration). For example:
+
+```
+# Build gatsd docker container with tag [tag-name] to current directory
+docker build -f gatsd/Dockerfile -t [tag-name] .
+
+# Ex:
+docker build -f gatsd/Dockerfile -t gatsby-site --build-arg SITE_NAME=gatsby-site --build-arg GATSBY_PORT=8000 .
+```
+
+The `docker run` command can also be explicitly invoked (read the `run` script for inspiration). For example:
+
+````
+docker run -it -p [port] -u [user] -v [volume] [tag-name] [arguments]
+
+# Ex: 
+docker run \
+	-it \
+	-p 8000:8000 \
+	-u $(id -u):$(id -g) \
+	-v $(pwd):/gatsby-site \
+	-w /gatsby-site \
+	gatsby-site \
+	gatsby develop -H 0.0.0.0
+```
