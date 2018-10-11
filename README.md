@@ -16,13 +16,14 @@ cd gatsby-site
 2.  Download gatsd sub-directory into new site.
 
 ```
-GATSD_VER=0.1.0
-curl -L https://www.github.com/imburbank/gatsd/archive/${GATSD_VER}.tar.gz | tar xzv gatsd-${GATSD_VER}/gatsd/ --strip=1
+RELEASE=0.1.0
+curl -L https://www.github.com/imburbank/gatsd/archive/${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
-3. Build GatsD Docker container.
+3. Build GatsD Docker container. The container will use a tag if provided; otherwise, container will be tagged with the `gatsby-site` name.
+
 ```
-./gatsd/docker-build
+./gatsd/docker-build [tag]
 ```
 
 The project directory will be accessible from inside the container and any changes made to the project inside the container or on the local host will be visible to both.
