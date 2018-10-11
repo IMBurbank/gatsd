@@ -53,6 +53,7 @@ _help() {
 
 		-h --help	Print GatsD help commands
 					to console
+		-v --version	Print GatD release version
 		-H --host	Set host for standard GatsD
 					command [develop|build|serve|stage]
 		-p --port	Set port for standard GatsD
