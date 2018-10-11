@@ -65,7 +65,7 @@ The following commands are available
 
 -   `gatsd build` -- Will invoke `gatsby build` inside the container to create an optimized production build of the site.
 
--   `gatsd serve` -- Will start a local HTML server to serve the production site locally at `http://localhost:8000.
+-   `gatsd serve` -- Will start a local HTML server to serve the production site locally at http://localhost:8000.
 
 -   `gatsd stage` -- GatsD will invoke `gatsd build` and `gatsd serve` to stage a local production build of your site.
 

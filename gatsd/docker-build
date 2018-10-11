@@ -23,6 +23,7 @@ cd "$(dirname $0)" || { echo "Could change to $(dirname $0)"; exit 1; }
 
 
 ##### CONSTANTS #####
+GATSD_VERSION=0.1.0
 GATSBY_DIR=$(dirname "$(pwd)")
 SITE_NAME=$(basename "${GATSBY_DIR}")
 WORK_DIR=/${SITE_NAME}
@@ -92,6 +93,7 @@ cat << ENV > _build-env
 # ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
 #
 # Docker container build environment
+GATSD_VERSION=${GATSD_VERSION}
 GATSBY_DIR=${GATSBY_DIR}
 SITE_NAME=${SITE_NAME}
 WORK_DIR=${WORK_DIR}

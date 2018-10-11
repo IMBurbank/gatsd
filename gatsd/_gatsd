@@ -21,6 +21,7 @@
 
 
 ##### CONSTANTS #####
+GATSD_VERSION=${GATSD_VERSION}
 SITE_NAME=${SITE_NAME}
 WORK_DIR=${WORK_DIR}
 GATSBY_PORT=${GATSBY_PORT}
@@ -155,6 +156,10 @@ _new_site() {
 
 ##### RUN #####
 case $1 in
+	-v|-V|--version|--Version)
+		echo "GatsD Version: ${GATSD_VERSION}"
+		exit 0
+		;;
 	-*|help)
 		_help && exit 0
 		;;
