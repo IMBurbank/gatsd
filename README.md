@@ -1,6 +1,6 @@
 # GatsD - The GatsbyJS Project Dockerizer
 
-Develop any GatsbyJS project without the need for dependency management on your local machine - beyond a working installation of Docker. 
+Develop any GatsbyJS project without the need for dependency management on your local machine - beyond a working installation of Docker, of course.
 
 ## How To Install
 
@@ -30,7 +30,7 @@ The project directory will be accessible from inside the container and any chang
 
 TODO
 
-## Using GatsD
+## GatsD Basics
 
 GatsD can be used from the local host machine
 ```

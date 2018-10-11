@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Copyright 2018 Isaac Burbank. All Rights Reserved.
 #
@@ -19,14 +19,14 @@
 #
 # Call from host project dir to run any command in Docker container.
 
-# Source build environment
-. $(dirname $0)/_build-env
+# shellcheck source=gatsd/_build_env
+. "$(dirname $0)/_build-env"
 
 docker run \
 	-it \
-	-p ${GATSBY_PORT}:${GATSBY_PORT} \
+	-p "${GATSBY_PORT}:${GATSBY_PORT}" \
 	-u $(id -u):$(id -g) \
-	-v ${GATSBY_DIR}:${WORK_DIR} \
-	-w ${WORK_DIR} \
-	${TAG_NAME} \
+	-v "${GATSBY_DIR}:${WORK_DIR}" \
+	-w "${WORK_DIR}" \
+	"${TAG_NAME}" \
 	$@

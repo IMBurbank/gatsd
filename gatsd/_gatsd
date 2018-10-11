@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Copyright 2018 Isaac Burbank. All Rights Reserved.
 #
@@ -137,7 +137,7 @@ _new_site() {
 
 	download_url=${DOWNLOAD_URL_BASE}/${1#*.com/}
 
-	cd ${WORK_DIR}
+	cd "${WORK_DIR}" || { echo "Error on change to ${WORK_DIR}"; exit 1; }
     echo "Downloading from ${download_url} to $(pwd)"
     curl -L ${download_url}/tarball | tar xz --strip=1
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Copyright 2018 Isaac Burbank. All Rights Reserved.
 #
@@ -19,26 +19,29 @@
 #
 # Call from host project dir to build docker image
 
-cd $(dirname $0)
+cd "$(dirname $0)" || { echo "Could change to $(dirname $0)"; exit 1; }
 
 
 ##### CONSTANTS #####
-GATSBY_DIR=$(dirname $(pwd))
-SITE_NAME=$(basename ${GATSBY_DIR})
+GATSBY_DIR=$(dirname "$(pwd)")
+SITE_NAME=$(basename "${GATSBY_DIR}")
 WORK_DIR=/${SITE_NAME}
-GATSD_DIRNAME=$(basename $(pwd))
+GATSD_DIRNAME=$(basename "$(pwd)")
 GATSD_DIR=${WORK_DIR}/${GATSD_DIRNAME}
 GATSBY_PORT=8000
 
 
 ##### VARIABLES #####
 gatsd_files="_gatsd build develop new run serve stage"
-tag_name=$1
+tag_name=
 
 
 ##### RUN #####
-if [ -z "${tag_name}" ]; then
+if [ -z "$1" ]; then
 	tag_name=${SITE_NAME}
+else
+	tag_name=$1
+	shift
 fi
 
 cat << SHIM > _gatsd-shim
@@ -98,22 +101,24 @@ GATSBY_PORT=${GATSBY_PORT}
 TAG_NAME=${tag_name}
 ENV
 
-chmod +x _gatsd-shim
-chmod +x _build-env
+gatsd_files="${gatsd_files} _gatsd-shim _build_env"
+for el in ${gatsd_files}; do
+	chmod +x "$el"
+done
 
-cd ${GATSBY_DIR}
+cd "${GATSBY_DIR}" || { echo "Could change to ${GATSBY_DIR}"; exit 1; }
 
 #
 # Modify docker build as needed 
 #
 docker build \
-	-f ${GATSD_DIRNAME}/Dockerfile \
-	-t ${tag_name} \
-	--build-arg  WORK_DIR=${WORK_DIR} \
-	--build-arg  SITE_NAME=${SITE_NAME} \
-	--build-arg  GATSD_DIR=${GATSD_DIR} \
-	--build-arg  GATSD_DIRNAME=${GATSD_DIRNAME} \
-	--build-arg  GATSBY_PORT=${GATSBY_PORT} \
+	-f "${GATSD_DIRNAME}/Dockerfile" \
+	-t "${tag_name}" \
+	--build-arg  WORK_DIR="${WORK_DIR}" \
+	--build-arg  SITE_NAME="${SITE_NAME}" \
+	--build-arg  GATSD_DIR="${GATSD_DIR}" \
+	--build-arg  GATSD_DIRNAME="${GATSD_DIRNAME}" \
+	--build-arg  GATSBY_PORT="${GATSBY_PORT}" \
 	. \
 	&& \
 cat <<- INFO
