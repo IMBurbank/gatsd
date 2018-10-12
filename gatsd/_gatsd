@@ -41,6 +41,7 @@ port=${GATSBY_PORT}				# flag -p --port
 ##### FUNCTIONS #####
 _help() {
 	cat << HELP
+
 ########################################################
 #                                                      #
 #                     GatsD CLI                        # 

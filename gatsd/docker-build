@@ -63,7 +63,7 @@ else
 fi
 
 cat << SHIM > _gatsd-shim
-#!/bin/env bash
+#!/usr/bin/env bash
 ${LICENSE}
 #
 # GatsD Shim
