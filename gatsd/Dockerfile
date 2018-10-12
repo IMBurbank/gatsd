@@ -1,23 +1,8 @@
-
-# Copyright 2018 GatsD Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ============================================================================
-#
 # GatsD Dockerfile Development Container
-#
+
 # You can use this image to develop your GatsbyJS project completely within
 # the container.
+
 ARG NODE_VER=10
 ARG DISTRO=alpine
 ARG BASE_IMAGE=node:${NODE_VER}-${DISTRO}
@@ -38,7 +23,7 @@ ARG REPOS=/etc/apk/repositories
 ENV SITE_NAME ${SITE_NAME:-site}
 ENV WORK_DIR ${WORK_DIR:-/${SITE_NAME}}
 ENV GATSD_VERSION ${GATSD_VERSION:-nonrelrease}
-ENV GATSD_DIRNAME ${GATSD_DIRNAME:-gatsby-docker}
+ENV GATSD_DIRNAME ${GATSD_DIRNAME:-gatsd}
 ENV GATSD_DIR ${GATSD_DIR:-${WORK_DIR}/${GATSD_DIRNAME}}
 ENV GATSBY_PORT ${GATSBY_PORT:-8000}
 
