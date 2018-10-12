@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2018 Isaac Burbank. All Rights Reserved.
+# Copyright 2018 GatsD Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,26 +52,26 @@ Run GatsbyJS commands inside a Docker container.
 Flags:
 
 -h --help	Print GatsD help commands
-			to console
+		to console
 -v --version	Print GatsD version
 -H --host	Set host for standard GatsD
-			command [develop|build|serve|stage]
+		command [develop|build|serve|stage]
 -p --port	Set port for standard GatsD
-			command [develop|build|serve|stage]
+		command [develop|build|serve|stage]
 
 Commands:
 
 develop		Start hot-reloading dev environment
-			inside Docker container.
-			Defaults: host=0.0.0.0
+		inside Docker container.
+		Defaults: host=0.0.0.0
 build		Invoke 'gatsby build' inside container
-			to generate production build of site.
+		to generate production build of site.
 serve		Start a local html server from inside
-			container to serve local build of site.
-			Defaults: host=0.0.0.0 port=8000
+		container to serve local build of site.
+		Defaults: host=0.0.0.0 port=8000
 stage		Build and serve production build of site
-			locally using 'gatsd build' and 
-			'gatsd serve' defaults
+		locally using 'gatsd build' and 
+		'gatsd serve' defaults
 
 Ex: gatsd stage -H 0.0.0.0 --port 8000
 
