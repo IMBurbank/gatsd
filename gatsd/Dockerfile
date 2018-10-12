@@ -77,4 +77,4 @@ COPY ${GATSD_DIRNAME}/_gatsd-shim ${GATSD_DIRNAME}/bash.bashrc ./
 RUN chmod a+rx _gatsd-shim && mv _gatsd-shim ${SHIM_DIR}/gatsd && \
     chmod a+rwx bash.bashrc && mv bash.bashrc /etc/profile.d/bashrc.sh
     
-CMD ["/bin/bash"]
+CMD ["/usr/bin/env","bash"]
