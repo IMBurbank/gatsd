@@ -64,7 +64,7 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/main >> ${REPOS} && \
         curl \
         yarn
 
-RUN npm install -g \
+RUN yarn global add \
         gatsby-cli \
         netlify-cli \
         surge
@@ -77,4 +77,4 @@ COPY ${GATSD_DIRNAME}/_gatsd-shim ${GATSD_DIRNAME}/bash.bashrc ./
 RUN chmod a+rx _gatsd-shim && mv _gatsd-shim ${SHIM_DIR}/gatsd && \
     chmod a+rwx bash.bashrc && mv bash.bashrc /etc/profile.d/bashrc.sh
     
-CMD ["/usr/bin/env","bash"]
+CMD ["/usr/bin/env","bash","-l"]

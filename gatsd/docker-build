@@ -1,52 +1,19 @@
 #!/bin/sh
 
-# Copyright 2018 GatsD Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ============================================================================
-#
 # Docker Build
-#
 # Call from host project dir to build docker image
 
 cd "$(dirname $0)" || { echo "Could change to $(dirname $0)"; exit 1; }
 
 
 ##### CONSTANTS #####
-GATSD_VERSION=v0.2.0
+GATSD_VERSION=v0.2.1
 GATSBY_PORT=8000
-GATSBY_DIR=$(dirname "$(pwd)")
-SITE_NAME=$(basename "${GATSBY_DIR}")
-WORK_DIR=/${SITE_NAME}
-GATSD_DIRNAME=$(basename "$(pwd)")
-GATSD_DIR=${WORK_DIR}/${GATSD_DIRNAME}
-LICENSE=$(cat << PRINT
-# Copyright 2018 GatsD Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ============================================================================
-PRINT
-)
+GATSBY_DIR="$(dirname $(pwd))"
+SITE_NAME="$(basename ${GATSBY_DIR})"
+WORK_DIR="/${SITE_NAME}"
+GATSD_DIRNAME="$(basename $(pwd))"
+GATSD_DIR="${WORK_DIR}/${GATSD_DIRNAME}"
 
 
 ##### VARIABLES #####
@@ -64,24 +31,17 @@ fi
 
 cat << SHIM > _gatsd-shim
 #!/usr/bin/env bash
-${LICENSE}
-#
+
 # GatsD Shim
-#
 # ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
-#
 # Shim to gatsby-docker.sh in project dir
 
 ${GATSD_DIR}/_gatsd \$@
 SHIM
 
 cat << ENV > _build-env
-${LICENSE}
-#
 # GatsD Build Environment
-#
 # ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
-#
 # Docker container build environment
 GATSD_VERSION=${GATSD_VERSION}
 GATSBY_DIR=${GATSBY_DIR}
@@ -95,7 +55,7 @@ ENV
 
 gatsd_files="${gatsd_files} _gatsd-shim _build-env"
 for el in ${gatsd_files}; do
-	chmod +x "$el"
+	chmod +rx "$el"
 done
 
 cd "${GATSBY_DIR}" || { echo "Could change to ${GATSBY_DIR}"; exit 1; }
