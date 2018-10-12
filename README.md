@@ -16,7 +16,7 @@ cd gatsby-site
 2.  Download gatsd sub-directory into new site.
 
 ```
-RELEASE=0.2.0
+RELEASE=v0.2.0
 curl -L https://www.github.com/imburbank/gatsd/archive/${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
@@ -27,6 +27,22 @@ curl -L https://www.github.com/imburbank/gatsd/archive/${RELEASE}.tar.gz | tar x
 ```
 
 The project directory will be accessible from inside the container and any changes made to the project inside the container or on the local host will be visible to both.
+
+4.  Create a new site.
+
+```
+./gatsd/new https://github.com/gatsbyjs/gatsby-starter-default
+```
+
+The site name is selected when the site directory is created in step 1, so it isn't needed to create a new site (the name in this example is gatsby-site).
+
+> Optionally, you can also call the command with the site name included - as long as it matched the name of the current working directory. 
+> 
+> '''
+> ./gatsd/new gatsby-site https://github.com/gatsbyjs/gatsby-starter-default
+> '''
+>
+> This more verbose option is maintained for consistency the Gatsby CLI.
 
 ### Existing Project
 

@@ -120,6 +120,7 @@ docker build \
 	--build-arg  SITE_NAME="${SITE_NAME}" \
 	--build-arg  GATSD_DIR="${GATSD_DIR}" \
 	--build-arg  GATSD_DIRNAME="${GATSD_DIRNAME}" \
+	--build-arg  GATSD_VERSION="${GATSD_VERSION}" \
 	--build-arg  GATSBY_PORT="${GATSBY_PORT}" \
 	. \
 	&& \
