@@ -38,9 +38,9 @@ The site name is selected when the site directory is created in step 1, so it is
 
 > Optionally, you can also call the command with the site name included - as long as it matched the name of the current working directory. 
 > 
-'''
-./gatsd/new gatsby-site https://github.com/gatsbyjs/gatsby-starter-default
-'''
+> ```
+> ./gatsd/new gatsby-site https://github.com/gatsbyjs/gatsby-starter-default
+> ```
 >
 > This more verbose option is maintained for consistency the Gatsby CLI.
 
