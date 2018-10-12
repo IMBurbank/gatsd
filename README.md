@@ -105,7 +105,7 @@ Or sending commands directly into the container with `run`
 ./gatsd/run gatsd stage
 
 # Example of running any other command in container
-./gatsd/run ls -a
+./gatsd/run yarn add --dev eslint
 ```
 
 ### From Inside the Container
@@ -129,11 +129,11 @@ gatsd develop
 
 For all other commands, issue them normally
 ```
-ls -a
+yarn install
 
-whoami
+yarn add gatsby-plugin-react
 
-gatsby develop -H 0.0.0.0
+gatsby develop --help
 ```
 
 ## Calling `docker` directly
