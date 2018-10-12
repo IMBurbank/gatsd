@@ -157,7 +157,7 @@ _new_site() {
 
 ##### RUN #####
 case $1 in
-	-v|-V|--version|--Version)
+	-v|-V|--version|--Version|version)
 		echo "GatsD Version: ${GATSD_VERSION}"
 		exit 0
 		;;
