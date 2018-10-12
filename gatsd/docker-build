@@ -3,7 +3,7 @@
 # Docker Build
 # Call from host project dir to build docker image
 
-cd "$(dirname $0)" || { echo "Could change to $(dirname $0)"; exit 1; }
+cd "$(dirname $0)" || { echo "Could not change to $(dirname $0)"; exit 1; }
 
 
 ##### CONSTANTS #####
@@ -58,7 +58,7 @@ for el in ${gatsd_files}; do
 	chmod +rx "$el"
 done
 
-cd "${GATSBY_DIR}" || { echo "Could change to ${GATSBY_DIR}"; exit 1; }
+cd "${GATSBY_DIR}" || { echo "Could not change to ${GATSBY_DIR}"; exit 1; }
 
 #
 # Modify docker build as needed 

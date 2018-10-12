@@ -11,6 +11,5 @@ docker run \
 	-p "${GATSBY_PORT}:${GATSBY_PORT}" \
 	-u $(id -u):$(id -g) \
 	-v "${GATSBY_DIR}:${WORK_DIR}" \
-	-w "${WORK_DIR}" \
 	"${TAG_NAME}" \
 	$@
