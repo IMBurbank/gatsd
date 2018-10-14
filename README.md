@@ -1,8 +1,8 @@
 # GatsD - The GatsbyJS Project Dockerizer
 
-Develop any GatsbyJS project without the need for dependency management on your local machine - beyond a working installation of Docker, of course.
+Develop any [GatsbyJS](https://www.gatsbyjs.org/) project without the need for dependency management on your local machine - beyond a working installation of [Docker](https://www.docker.com/), of course.
 
-If you haven't already set up your development environment to work on a website using GatsbyJS, you'll never need to. Maintain all the conveniences and power of Gatsby without the need to download or maintain version consistency of anything global -- node, npm, yarn, gatsby-cli, vips, fftw or any other obscure global package. 
+Maintain all the conveniences and power of Gatsby without the need to download or maintain version consistency of anything global -- node, npm, yarn, gatsby-cli, vips, fftw or any other obscure global package. 
 
 If you already have all the global packages, stop worrying about managing them. 
 
@@ -11,6 +11,8 @@ GatsD will work just as well for new and existing GatsbyJS sites.
 ## How To Install
 
 GatsD can be installed and used to create a new project, or it can be installed into an existing project. Either way, it's as simple as installing the `gatsd/` directory and running a command to build your Docker container.
+
+***Not yet working on Windows. I have to work out path issues after a bit more work on core features***
 
 ### New Project
 
@@ -152,6 +154,20 @@ yarn install
 yarn add gatsby-plugin-react
 
 gatsby develop --help
+```
+
+## Adding Local Node Modules
+
+Adding local packages is simple. Call `yarn` as you would any other command and the `node_moduled` will download to their usual place in the project directory shared between the host machine the the container.
+
+From the host machine:
+```shell
+./gatsd/run yarn add [package]
+```
+
+From inside the guest container:
+```shell
+yarn add [package]
 ```
 
 ## Calling `docker` directly
