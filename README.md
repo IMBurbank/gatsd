@@ -170,7 +170,7 @@ docker build -f gatsd/Dockerfile -t mysite --build-arg SITE_NAME=mysite --build-
 
 The `docker run` command can also be explicitly invoked (read the `run` script for inspiration). For example:
 
-````shell
+```shell
 docker run -it -p [port] -u [user] -v [volume] [tag-name] [arguments]
 
 # Ex: 
