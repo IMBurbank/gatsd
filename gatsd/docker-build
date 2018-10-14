@@ -17,7 +17,7 @@ GATSD_DIR="${WORK_DIR}/${GATSD_DIRNAME}"
 
 
 ##### VARIABLES #####
-gatsd_files="_gatsd _default.conf bashrc build develop new run serve stage"
+gatsd_files="_gatsd _default.conf _bashrc build develop new run serve stage"
 
 
 ##### FLAGS #####

@@ -17,87 +17,62 @@ GatsD can be installed and used to create a new project, or it can be installed 
 1.  Create directory for new site and enter the new directory.
 
 ```shell
-mkdir gatsby-site
-cd gatsby-site
+mkdir mysite
+cd mysite
 ```
 
 2.  Download gatsd sub-directory into new site.
 
 ```shell
-RELEASE=0.2.0
+RELEASE=0.3.0
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
-3. Build GatsD Docker container. The container will use a tag if provided; otherwise, container will be tagged with the `gatsby-site` name.
-
-```shell
-./gatsd/docker-build [tag]
-```
-
-The project directory will be accessible from inside the container and any changes made to the project inside the container or on the local host will be visible to both.
-
-4.  Create a new site.
+3. Initialize Gatsby project with GatsD.
 
 ```shell
 ./gatsd/new https://github.com/gatsbyjs/gatsby-starter-default
 ```
 
-The site name is selected when the site directory is created in step 1, so it isn't needed to create a new site (the name in this example is gatsby-site).
+GatsD will build the Docker container and download the selected Gatsby starter template from github. By default, container will be tagged with the `mysite` name. If no site is passed as an argument to `./gatsd/new`, then the `gatsby-starter-default` template will be downloaded.
 
-> Optionally, you can also call the command with the site name included - as long as it matched the name of the current working directory. 
-> 
-> ```shell
-> ./gatsd/new gatsby-site https://github.com/gatsbyjs/gatsby-starter-default
-> ```
->
-> This more verbose option is maintained for consistency the Gatsby CLI.
+The project directory will be accessible from inside the container and any changes made to the project inside the container or on the local host will be visible to both.
 
 ### Existing Project
 
 1.  Enter the site directory.
 
 ```shell
-cd path/to/my-site/
+cd path/to/mysite/
 ```
 
 2.  Download gatsd sub-directory into existing site.
 
 ```shell
-RELEASE=0.2.0
+RELEASE=0.3.0
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
-3. Build GatsD Docker container. The container will use a tag if provided; otherwise, container will be tagged with the existing `my-site` directory name.
+3. Initialize GatsD.
 
 ```shell
-./gatsd/docker-build [tag]
+./gatsd/new
 ```
+
+GatsD will build the Docker container and initialize the `node_nodules` with `yarn`. By default, container will be tagged with the `mysite` name.
 
 The project directory will be accessible from inside the container and any changes made to the project inside the container or on the local host will be visible to both.
 
-Existing projects with `node_modules` already compiled should recompile using the development container.
-
-```shell
-# From the local machine
-./gatsd/run yarn run install --force
-
-# Or
-# To enter the container
-./gatsd/run
-# From inside the container
-yarn run install --force
-```
-
 ## GatsD Basics
 
-You can continue to develop your Gatsby site with all the normal `docker` and `gatsby` commands, but the GatD convenience wrapper is now availailable.
+You can continue to develop your Gatsby site with all the normal `docker` and `gatsby` commands, but the GatsD convenience wrapper is now available.
 
 GatsD can be used from the local host machine.
 ```shell
 # For gatsd commands
 ./gatsd/[command]
 
-# To rin all other commands inside the container
+# To run all other commands inside the container
 ./gatsd/run [command]
 ```
 
@@ -190,7 +165,7 @@ The `docker-build` file is used to create a default container for this project. 
 docker build -f gatsd/Dockerfile -t [tag-name] .
 
 # Ex:
-docker build -f gatsd/Dockerfile -t gatsby-site --build-arg SITE_NAME=gatsby-site --build-arg GATSBY_PORT=8000 .
+docker build -f gatsd/Dockerfile -t mysite --build-arg SITE_NAME=mysite --build-arg GATSBY_PORT=8000 .
 ```
 
 The `docker run` command can also be explicitly invoked (read the `run` script for inspiration). For example:
@@ -203,8 +178,8 @@ docker run \
 	-it \
 	-p 8000:8000 \
 	-u $(id -u):$(id -g) \
-	-v $(pwd):/gatsby-site \
-	-w /gatsby-site \
-	gatsby-site \
+	-v $(pwd):/mysite \
+	-w /mysite \
+	mysite \
 	gatsby develop -H 0.0.0.0
 ```
