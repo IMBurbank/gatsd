@@ -44,14 +44,8 @@ fi
 SITE_NAME=${SITE_NAME}
 GATSD_VERSION=${GATSD_VERSION}
 
-echo "0: $0"
-echo "@: $@"
-echo "OPTIND: $OPTIND"
-echo "host: $host"
-echo "port: $port"
-echo "tag: $tag"
 
-
+##### MAIN #####
 echo "Starting to build docker container"
 $(dirname $0)/docker-build -t "${tag}" -H "${host}" -p "${port}" || exit 1
 

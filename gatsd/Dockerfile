@@ -55,7 +55,7 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/main >> ${REPOS} && \
         gatsby-cli \
         netlify-cli \
         surge 
-        
+
 VOLUME ${WORK_DIR}
 WORKDIR ${WORK_DIR}
 

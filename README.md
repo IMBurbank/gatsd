@@ -12,8 +12,6 @@ GatsD will work just as well for new and existing Gatsby sites.
 
 GatsD can be installed and used to create a new project, or it can be installed into an existing project. Either way, it's as simple as installing the `gatsd/` directory and running a command to build your Docker container.
 
-***Not yet working on Windows. I have to work out path issues after a bit more work on core features***
-
 ### New Project
 
 1.  Create directory for new site and enter the new directory.
@@ -51,7 +49,7 @@ cd path/to/mysite/
 2.  Download gatsd sub-directory into existing site.
 
 ```shell
-RELEASE=0.3.0
+RELEASE=0.3.1
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
@@ -199,3 +197,10 @@ docker run \
 	mysite \
 	gatsby develop -H 0.0.0.0
 ```
+
+## Note For Windows Users
+
+Tested on Windows 10 using Windows Subsystem for Linux (WSL). So far, this project is *generally* working for Windows with the following exceptions:
+
+-	Must use WSL
+-	Gatsby dev server isn't automatically updating on file changes. Need to restart dev server to see changes.

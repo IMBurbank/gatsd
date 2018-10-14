@@ -11,13 +11,13 @@ cd "$(dirname $0)" || { echo "Could not change to $(dirname $0)"; exit 1; }
 GATSD_VERSION="${GATSD_VERSION}"
 SITE_NAME="${SITE_NAME}"
 GATSD_DIRNAME="${GATSD_DIRNAME}"
-GATSBY_DIR="$(dirname $(pwd))"
 WORK_DIR="/${SITE_NAME}"
 GATSD_DIR="${WORK_DIR}/${GATSD_DIRNAME}"
 
 
 ##### VARIABLES #####
 gatsd_files="_gatsd _default.conf _bashrc build develop new run serve stage"
+gatsby_dir="$(dirname $(pwd))"
 
 
 ##### FLAGS #####
@@ -45,7 +45,11 @@ done
 shift `expr $OPTIND - 1`
 
 
-##### RUN #####
+##### MAIN #####
+if grep -q Microsoft /proc/version; then
+	gatsby_dir=$(wslpath -m ${gatsby_dir})
+	echo "WSL detected. Converted gatsby_dir to ${gatsby_dir}"
+fi
 
 cat << SHIM > _gatsd-shim
 #!/usr/bin/env bash
@@ -62,11 +66,11 @@ cat << ENV > _build-env
 # ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
 # Docker container build environment
 GATSD_VERSION=${GATSD_VERSION}
-GATSBY_DIR=${GATSBY_DIR}
 SITE_NAME=${SITE_NAME}
 WORK_DIR=${WORK_DIR}
 GATSD_DIR=${GATSD_DIR}
 GATSD_DIRNAME=${GATSD_DIRNAME}
+GATSBY_DIR=${gatsby_dir}
 GATSBY_HOST=${gatsby_host}
 GATSBY_PORT=${gatsby_port}
 TAG_NAME=${tag_name}
@@ -77,7 +81,7 @@ for el in ${gatsd_files}; do
 	chmod +rx "$el"
 done
 
-cd "${GATSBY_DIR}" || { echo "Could not change to ${GATSBY_DIR}"; exit 1; }
+cd .. || { echo "Could not change to $(dirname $(pwd))"; exit 1; }
 
 #
 # Modify docker build as needed 
@@ -90,6 +94,7 @@ docker build \
 	--build-arg  GATSD_DIR="${GATSD_DIR}" \
 	--build-arg  GATSD_DIRNAME="${GATSD_DIRNAME}" \
 	--build-arg  GATSD_VERSION="${GATSD_VERSION}" \
+	--build-arg  GATSBY_HOST="${gatsby_host}" \
 	--build-arg  GATSBY_PORT="${gatsby_port}" \
 	. \
 	&& \

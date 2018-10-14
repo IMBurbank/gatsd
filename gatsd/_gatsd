@@ -158,7 +158,7 @@ _new_project() {
 }
 
 
-##### RUN #####
+##### MAIN #####
 case $1 in
 	-v|-V|--version|--Version|version)
 		echo "GatsD Version: ${GATSD_VERSION}"
