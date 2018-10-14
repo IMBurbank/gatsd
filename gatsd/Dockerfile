@@ -15,16 +15,18 @@ ARG WORK_DIR
 ARG GATSD_VERSION
 ARG GATSD_DIRNAME
 ARG GATSD_DIR
+ARG GATSBY_HOST
 ARG GATSBY_PORT
 
 ARG SHIM_DIR=/bin
 ARG REPOS=/etc/apk/repositories
 
-ENV SITE_NAME ${SITE_NAME:-site}
+ENV SITE_NAME ${SITE_NAME:-mysite}
 ENV WORK_DIR ${WORK_DIR:-/${SITE_NAME}}
 ENV GATSD_VERSION ${GATSD_VERSION:-nonrelrease}
 ENV GATSD_DIRNAME ${GATSD_DIRNAME:-gatsd}
 ENV GATSD_DIR ${GATSD_DIR:-${WORK_DIR}/${GATSD_DIRNAME}}
+ENV GATSBY_HOST ${GATSBY_HOST:-0.0.0.0}
 ENV GATSBY_PORT ${GATSBY_PORT:-8000}
 
 RUN echo http://nl.alpinelinux.org/alpine/edge/main >> ${REPOS} && \
@@ -47,19 +49,17 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/main >> ${REPOS} && \
         openssl \
         git \
         curl \
-        yarn
-
-RUN yarn global add \
+        yarn \
+        && \
+    yarn global add \
         gatsby-cli \
         netlify-cli \
-        surge
+        surge 
         
 VOLUME ${WORK_DIR}
 WORKDIR ${WORK_DIR}
 
-COPY ${GATSD_DIRNAME}/_gatsd-shim ${GATSD_DIRNAME}/bash.bashrc ./
-
-RUN chmod a+rx _gatsd-shim && mv _gatsd-shim ${SHIM_DIR}/gatsd && \
-    chmod a+rwx bash.bashrc && mv bash.bashrc /etc/profile.d/bashrc.sh
+COPY ${GATSD_DIRNAME}/_gatsd-shim ${SHIM_DIR}/gatsd
+COPY ${GATSD_DIRNAME}/bashrc /etc/profile.d/bashrc.sh
     
 CMD ["/usr/bin/env","bash","-l"]

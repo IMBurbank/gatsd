@@ -3,31 +3,49 @@
 # Docker Build
 # Call from host project dir to build docker image
 
+. "$(dirname $0)/_default.conf"
 cd "$(dirname $0)" || { echo "Could not change to $(dirname $0)"; exit 1; }
 
 
 ##### CONSTANTS #####
-GATSD_VERSION=v0.2.1
-GATSBY_PORT=8000
+GATSD_VERSION="${GATSD_VERSION}"
+SITE_NAME="${SITE_NAME}"
+GATSD_DIRNAME="${GATSD_DIRNAME}"
 GATSBY_DIR="$(dirname $(pwd))"
-SITE_NAME="$(basename ${GATSBY_DIR})"
 WORK_DIR="/${SITE_NAME}"
-GATSD_DIRNAME="$(basename $(pwd))"
 GATSD_DIR="${WORK_DIR}/${GATSD_DIRNAME}"
 
 
 ##### VARIABLES #####
-gatsd_files="_gatsd build develop new run serve stage"
-tag_name=
+gatsd_files="_gatsd _default.conf bashrc build develop new run serve stage"
+
+
+##### FLAGS #####
+tag_name=${BUILD_TAG}			# flag -t
+gatsby_port=${GATSBY_PORT}		# flag -p
+gatsby_host=${GATSBY_HOST}		# flag -H
+
+while getopts ":H:t:p:" flag; do
+	case "${flag}" in
+		H) 
+			gatsby_host="${OPTARG}"
+			;;
+		p) 
+			gatsby_port="${OPTARG}"
+			;;
+		t) 
+			tag_name="${OPTARG}"
+			;;
+		*) 
+			echo "ERROR: Invalid flag ${flag}"
+			exit 1
+			;;
+	esac
+done
+shift `expr $OPTIND - 1`
 
 
 ##### RUN #####
-if [ -z "$1" ]; then
-	tag_name=${SITE_NAME}
-else
-	tag_name=$1
-	shift
-fi
 
 cat << SHIM > _gatsd-shim
 #!/usr/bin/env bash
@@ -49,7 +67,8 @@ SITE_NAME=${SITE_NAME}
 WORK_DIR=${WORK_DIR}
 GATSD_DIR=${GATSD_DIR}
 GATSD_DIRNAME=${GATSD_DIRNAME}
-GATSBY_PORT=${GATSBY_PORT}
+GATSBY_HOST=${gatsby_host}
+GATSBY_PORT=${gatsby_port}
 TAG_NAME=${tag_name}
 ENV
 
@@ -71,7 +90,7 @@ docker build \
 	--build-arg  GATSD_DIR="${GATSD_DIR}" \
 	--build-arg  GATSD_DIRNAME="${GATSD_DIRNAME}" \
 	--build-arg  GATSD_VERSION="${GATSD_VERSION}" \
-	--build-arg  GATSBY_PORT="${GATSBY_PORT}" \
+	--build-arg  GATSBY_PORT="${gatsby_port}" \
 	. \
 	&& \
 cat <<- INFO

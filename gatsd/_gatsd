@@ -13,12 +13,12 @@ DOWNLOAD_URL_BASE=https://api.github.com/repos
 
 
 ##### VARIABLES #####
-download_url=
+download_url=""
 pass=()
 
 
 ##### FLAGS #####
-host=0.0.0.0					# flag -H --host
+host=${GATSBY_HOST}				# flag -H --host
 port=${GATSBY_PORT}				# flag -p --port
 
 
@@ -111,18 +111,25 @@ _pars_args() {
 }
 
 _new_site() {
-    [[ "$1" == "${SITE_NAME}" ]] && shift
-	
-    if [[ "$1" != http?(s)://github.com/* ]]; then
+	echo "STARTING NEW SITE: $@"
+	if [[ -z "$1" ]]; then
+		IFS="="
+		while read -r key val; do
+			[[ "${key}" == "STARTER_URL" ]] && set "${val//\"/}"
+		done < $(dirname $0)/_default.conf
+	fi
+
+	if [[ "$1" != http?(s)://github.com/* ]]; then
 		cat <<- WARN
 			To create a new site, please use 'new <site>'. For example:
 			new https://github.com/gatsbyjs/gatsby-starter-default
 			Site-name argument isn't needed. Current dir will be used.
 		WARN
 		return 1
-    fi
+	fi
 
 	download_url=${DOWNLOAD_URL_BASE}/${1#*.com/}
+	echo "DOWNLOAD_URL: $download_url"
 
 	cd "${WORK_DIR}" || { echo "Error on change to ${WORK_DIR}"; exit 1; }
     echo "Downloading from ${download_url} to $(pwd)"
@@ -131,12 +138,23 @@ _new_site() {
 	if [[ ! -e "package.json" ]]; then
 		echo "Site creation error: No package.json found."
 		return 1
-	elif [[ -e "package-lock.json" ]]; then
-		rm package-lock.json
+	fi
+}
+
+_new_project() {
+	[[ "$1" == "${SITE_NAME}" ]] && shift
+
+	if [[ ! -e "package.json" ]]; then
+		echo "No package.json. Downloading new site."
+		_new_site $@ || return 1
+	else
+		echo "Found package.json. Project already installed."
 	fi
 
-    echo "Initializing node_modules with yarn"
-    yarn install
+	[[ -e "package-lock.json" ]] && rm package-lock.json
+	
+	echo "Installing local yarn packages"
+	yarn install --force
 }
 
 
@@ -151,7 +169,8 @@ case $1 in
 		;;
     new)
     	shift
-        _new_site $@ || { echo "Exiting"; exit 1; }
+		_pars_args $@
+        _new_project ${pass[@]} || { echo "Exiting"; exit 1; }
         ;;
 	build)
 		shift
