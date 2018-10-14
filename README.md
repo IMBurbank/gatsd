@@ -6,7 +6,7 @@ Maintain all the conveniences and power of Gatsby without the need to download o
 
 If you already have all the global packages, stop worrying about managing them. 
 
-GatsD will work just as well for new and existing GatsbyJS sites.
+GatsD will work just as well for new and existing Gatsby sites.
 
 ## How To Install
 
