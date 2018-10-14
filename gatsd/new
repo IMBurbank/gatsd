@@ -13,7 +13,7 @@ tag=${BUILD_TAG}		# flag -t
 port=${GATSBY_PORT}		# flag -p
 host=${GATSBY_HOST}		# flag -H
 
-if [ "$1" == "new" ]; then
+if [ "$1" = "new" ]; then
 	shift
 fi
 
@@ -35,7 +35,7 @@ while getopts ":H:p:t:" flag; do
 	esac
 done
 shift `expr $OPTIND - 1`
-if [ "$1" == "new" ]; then
+if [ "$1" = "new" ]; then
 	shift
 fi
 

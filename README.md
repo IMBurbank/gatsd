@@ -204,4 +204,4 @@ Tested on Windows 10 using Windows Subsystem for Linux (WSL). So far, this proje
 
 -	Must use WSL
 -	Must develop on a local drive (ex. C:)
--	Gatsby dev server isn't automatically updating on file changes. Need to restart dev server to see changes.
+-	Gatsby dev server isn't automatically updating on file changes. Need to restart dev server to see changes (for now).
