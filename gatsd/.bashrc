@@ -3,7 +3,7 @@
 # Loaded by container entrypoint
 
 ### Environment settings below can be overridden by auto-generated build-env
-export CHECK_VAL="success"
+export GATSDENV_LOADED="true"
 
 
 ### AUTO-GENERATED -- PERMANENT CHANGES MUST BE MADE IN 'docker-build'
