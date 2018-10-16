@@ -159,7 +159,7 @@ _new_project() {
 
 
 ##### MAIN #####
-case $1 in
+case "$1" in
 	-v|-V|--version|--Version|version)
 		echo "GatsD Version: ${GATSD_VERSION}"
 		exit 0
@@ -180,7 +180,7 @@ case $1 in
 	develop)
 		shift
 		_pars_args $@
-		gatsby develop --host ${host} ${pass[@]}
+		gatsby develop -H ${host} -p ${port} ${pass[@]}
 		;;
 	serve)
 		shift

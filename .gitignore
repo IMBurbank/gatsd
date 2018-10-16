@@ -56,3 +56,5 @@ pids
 # Sanity files
 foo
 foo.sh
+bar
+bar.sh

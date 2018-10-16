@@ -3,14 +3,26 @@
 # GatsD Run
 # Call from host project dir to run any command in Docker container.
 
-# shellcheck source=gatsd/_build-env
-. "$(dirname $0)/_build-env"
+# shellcheck source=gatsd/_bashrc
+. "$(dirname $0)/_bashrc"
 
-docker run \
-	-it \
-	-p "${GATSBY_PORT}:${GATSBY_PORT}" \
-	-u $(id -u):$(id -g) \
-	-v "${GATSBY_DIR}:${WORK_DIR}" \
-	-w "${WORK_DIR}" \
-	"${TAG_NAME}" \
-	$@
+
+if [ ! "$(docker ps -q -f name=${TAG_NAME})" ]; then
+    if [ "$(docker ps -aq -f status=exited -f name=${TAG_NAME})" ]; then
+        # cleanup
+		docker rm ${TAG_NAME}
+    fi
+    # run container
+	docker run \
+		-it \
+		--name ${TAG_NAME} \
+		-p "${GATSBY_PORT}:${GATSBY_PORT}" \
+		-u $(id -u):$(id -g) \
+		-v "${GATSBY_DIR}:${WORK_DIR}" \
+		-w "${WORK_DIR}" \
+		"${TAG_NAME}" \
+		$@
+else
+	# exec in running container
+	docker exec -it ${TAG_NAME} bash -l $@
+fi

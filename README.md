@@ -1,6 +1,6 @@
 # GatsD - The GatsbyJS Project Dockerizer
 
-Develop any [GatsbyJS](https://www.gatsbyjs.org/) project without the need for dependency management on your local machine - beyond a working installation of [Docker](https://www.docker.com/), of course.
+Develop any [GatsbyJS](https://www.gatsbyjs.org/) project without the need for dependency management on your local machine - beyond a working installation of [Docker](https://docs.docker.com/install/), of course.
 
 Maintain all the conveniences and power of Gatsby without the need to download or maintain version consistency of anything global -- node, npm, yarn, gatsby-cli, vips, fftw or any other obscure global package. 
 
@@ -24,7 +24,7 @@ cd mysite
 2.  Download gatsd sub-directory into new site.
 
 ```shell
-RELEASE=0.3.0
+RELEASE=0.3.1
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
@@ -32,6 +32,9 @@ curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar 
 
 ```shell
 ./gatsd/new https://github.com/gatsbyjs/gatsby-starter-default
+
+# To use the gatsby-start-default template, you can just run:
+./gatsd/new
 ```
 
 GatsD will build the Docker container and download the selected Gatsby starter template from github. By default, container will be tagged with the `mysite` name. If no site is passed as an argument to `./gatsd/new`, then the `gatsby-starter-default` template will be downloaded.
@@ -198,10 +201,24 @@ docker run \
 	gatsby develop -H 0.0.0.0
 ```
 
-## Note For Windows Users
+## Notes For Windows Users
 
-Tested on Windows 10 using Windows Subsystem for Linux (WSL). So far, this project is *generally* working for Windows with the following exceptions/limitations:
+GatsD is *generally* working on Windows &mdash; with the following exceptions/limitations:
 
--	Must use WSL
--	Must develop on a local drive (ex. C:)
--	Gatsby dev server isn't automatically updating on file changes. Need to restart dev server to see changes (for now).
+### Windows Subsystem for Linux (WSL)
+
+GatsD on Windows has only been tested using Windows 10 with [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL).
+
+Since Windows programs can't safely change files within the local Linux filesystem, development should be done on one of your normal local drives (such as C: or D:). 
+
+### Dev Server Event Handling
+
+It is a [known issue](https://docs.docker.com/docker-for-windows/troubleshoot/#volumes) in Docker for Windows that inotify does not work on shared volumes. This means that running `gatsby develop` in a docker container and editing the files locally will not trigger webpack-dev-server updates.
+
+This limitation can be addressed in a few ways:
+
+-	Save file edits inside the running Docker container to trigger watch events normally.
+-	Turn on polling within the file-watcher used by Gatsby ([chokidar](https://www.npmjs.com/package/chokidar)) (I am currently looking into better support along this avenue).
+-	Set up you own preferred file-watcher to send events to the dev-server.
+
+Ideally, Windows and Docker will get this issue worked out. Until then, I'll update this section with additional advice on inotify events as I get them.

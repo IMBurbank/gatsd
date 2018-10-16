@@ -46,11 +46,9 @@ shift `expr $OPTIND - 1`
 
 
 ##### MAIN #####
-if [ -z "$(grep -q Microsoft /proc/version)" ]; then
+if [ ! -z "$(grep -q Microsoft /proc/version)" ]; then
 	gatsby_dir=$(wslpath -m ${gatsby_dir})
 	echo "WSL detected. Converted gatsby_dir to ${gatsby_dir}"
-else
-	echo "NATIVE"
 fi
 
 cat << SHIM > _gatsd-shim
@@ -63,25 +61,27 @@ cat << SHIM > _gatsd-shim
 ${GATSD_DIR}/_gatsd \$@
 SHIM
 
-cat << ENV > _build-env
-# GatsD Build Environment
-# ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
-# Docker container build environment
-GATSD_VERSION=${GATSD_VERSION}
-SITE_NAME=${SITE_NAME}
-WORK_DIR=${WORK_DIR}
-GATSD_DIR=${GATSD_DIR}
-GATSD_DIRNAME=${GATSD_DIRNAME}
-GATSBY_DIR=${gatsby_dir}
-GATSBY_HOST=${gatsby_host}
-GATSBY_PORT=${gatsby_port}
-TAG_NAME=${tag_name}
-ENV
-
-gatsd_files="${gatsd_files} _gatsd-shim _build-env"
+gatsd_files="${gatsd_files} _gatsd-shim"
 for el in ${gatsd_files}; do
 	chmod +rx "$el"
 done
+
+ed -s _bashrc <<ARG
+/^### START/+,/^### END/-d
+/^### START/a
+export GATSD_VERSION=${GATSD_VERSION}
+export SITE_NAME=${SITE_NAME}
+export WORK_DIR=${WORK_DIR}
+export GATSD_DIR=${GATSD_DIR}
+export GATSD_DIRNAME=${GATSD_DIRNAME}
+export GATSBY_DIR=${gatsby_dir}
+export GATSBY_HOST=${gatsby_host}
+export GATSBY_PORT=${gatsby_port}
+export TAG_NAME=${tag_name}
+.
+w
+q
+ARG
 
 cd .. || { echo "Could not change to $(dirname $(pwd))"; exit 1; }
 
@@ -95,9 +95,6 @@ docker build \
 	--build-arg  SITE_NAME="${SITE_NAME}" \
 	--build-arg  GATSD_DIR="${GATSD_DIR}" \
 	--build-arg  GATSD_DIRNAME="${GATSD_DIRNAME}" \
-	--build-arg  GATSD_VERSION="${GATSD_VERSION}" \
-	--build-arg  GATSBY_HOST="${gatsby_host}" \
-	--build-arg  GATSBY_PORT="${gatsby_port}" \
 	. \
 	&& \
 cat <<- INFO
