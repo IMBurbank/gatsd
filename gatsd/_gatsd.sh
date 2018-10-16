@@ -169,30 +169,30 @@ case "$1" in
 		;;
     new)
     	shift
-		_pars_args $@
-        _new_project ${pass[@]} || { echo "Exiting"; exit 1; }
+		_pars_args "$@"
+        _new_project "${pass[@]}" || { echo "Exiting"; exit 1; }
         ;;
 	build)
 		shift
-		_pars_args $@
-		gatsby build ${pass[@]}
+		_pars_args "$@"
+		gatsby build "${pass[@]}"
 		;;
 	develop)
 		shift
-		_pars_args $@
-		gatsby develop -H ${host} -p ${port} ${pass[@]}
+		_pars_args "$@"
+		gatsby develop -H ${host} -p ${port} "${pass[@]}"
 		;;
 	serve)
 		shift
-		_pars_args $@
-		gatsby serve -H ${host} -p ${port} ${pass[@]}
+		_pars_args "$@"
+		gatsby serve -H ${host} -p ${port} "${pass[@]}"
 		;;
 	stage)
 		shift
-		_pars_args $@
-		gatsby build && gatsby serve -H ${host} -p ${port} ${pass[@]}
+		_pars_args "$@"
+		gatsby build && gatsby serve -H ${host} -p ${port} "${pass[@]}"
 		;;
     *)
-		exec $@
+		exec "$@"
 		;;
 esac

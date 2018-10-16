@@ -16,7 +16,7 @@ GATSD_DIR="${WORK_DIR}/${GATSD_DIRNAME}"
 
 
 ##### VARIABLES #####
-gatsd_files="_gatsd _default.conf _bashrc build develop new run serve stage"
+gatsd_files="_entry.sh _gatsd.sh _default.conf .bashrc build develop new run serve stage"
 gatsby_dir="$(dirname $(pwd))"
 
 
@@ -58,7 +58,7 @@ cat << SHIM > _gatsd-shim
 # ***GENERATED FILE*** PERMANENT CHANGES MUST BE MADE IN 'docker-build'
 # Shim to gatsby-docker.sh in project dir
 
-${GATSD_DIR}/_gatsd \$@
+${GATSD_DIR}/_gatsd.sh \$@
 SHIM
 
 gatsd_files="${gatsd_files} _gatsd-shim"
@@ -66,7 +66,7 @@ for el in ${gatsd_files}; do
 	chmod +rx "$el"
 done
 
-ed -s _bashrc <<ARG
+ed -s .bashrc <<ARG
 /^### START/+,/^### END/-d
 /^### START/a
 export GATSD_VERSION=${GATSD_VERSION}

@@ -43,6 +43,7 @@ VOLUME ${WORK_DIR}
 WORKDIR ${WORK_DIR}
 
 COPY ${GATSD_DIRNAME}/_gatsd-shim ${SHIM_DIR}/gatsd
-COPY ${GATSD_DIRNAME}/_bashrc /etc/profile.d/bashrc.sh
-    
-CMD ["/usr/bin/env","bash","-l"]
+COPY ${GATSD_DIRNAME}/.bashrc ${GATSD_DIRNAME}/_entry.sh /
+
+ENTRYPOINT ["/_entry.sh"]
+CMD ["/usr/bin/env", "bash", "-l"]
