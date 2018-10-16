@@ -193,6 +193,7 @@ docker run -it -p [port] -u [user] -v [volume] [tag-name] [arguments]
 # Ex: 
 docker run \
 	-it \
+	--name mysite
 	-p 8000:8000 \
 	-u $(id -u):$(id -g) \
 	-v $(pwd):/mysite \
@@ -207,7 +208,7 @@ GatsD is *generally* working on Windows &mdash; with the following exceptions/li
 
 ### Windows Subsystem for Linux (WSL)
 
-GatsD on Windows has only been tested using Windows 10 with [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL).
+Windows compatibility has only been tested using Windows 10 with [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL).
 
 Since Windows programs can't safely change files within the local Linux filesystem, development should be done on one of your normal local drives (such as C: or D:). 
 
