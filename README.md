@@ -24,9 +24,12 @@ cd mysite
 2.  Download gatsd sub-directory into new site.
 
 ```shell
-RELEASE=0.3.1
+# For latest release
+RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest | sed -ne 's/"tag_name": "v\(.*\)",/\1/p')
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
+
+Releases can also be selected by version, such as `RELEASE=0.3.1`
 
 3. Initialize Gatsby project with GatsD.
 
@@ -52,9 +55,12 @@ cd path/to/mysite/
 2.  Download gatsd sub-directory into existing site.
 
 ```shell
-RELEASE=0.3.1
+# For latest release
+RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest | sed -ne 's/"tag_name": "v\(.*\)",/\1/p')
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
+
+Releases can also be selected by version, such as `RELEASE=0.3.1`
 
 3. Initialize GatsD.
 
