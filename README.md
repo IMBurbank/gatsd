@@ -25,7 +25,7 @@ cd mysite
 
 ```shell
 # For latest release
-RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest | sed -ne 's/"tag_name": "v\(.*\)",/\1/p')
+RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest | sed -n 's/"tag_name": "v\(.*\)",/\1/p' | tr -d ' ')
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
@@ -56,7 +56,7 @@ cd path/to/mysite/
 
 ```shell
 # For latest release
-RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest | sed -ne 's/"tag_name": "v\(.*\)",/\1/p')
+RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest | sed -n 's/"tag_name": "v\(.*\)",/\1/p' | tr -d ' ')
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
