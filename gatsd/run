@@ -10,11 +10,12 @@
 if [ ! "$(docker ps -q -f name=${TAG_NAME})" ]; then
     if [ "$(docker ps -aq -f status=exited -f name=${TAG_NAME})" ]; then
         # cleanup
-		docker rm "${TAG_NAME}"
+		docker container rm "${TAG_NAME}"
     fi
     # run container
 	docker run \
 		-it \
+		--rm \
 		--name "${TAG_NAME}" \
 		-p "${GATSBY_PORT}:${GATSBY_PORT}" \
 		-u "$(id -u):$(id -g)" \
