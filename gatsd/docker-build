@@ -46,7 +46,7 @@ shift `expr $OPTIND - 1`
 
 
 ##### MAIN #####
-if [ ! -z "$(grep -q Microsoft /proc/version)" ]; then
+if [ ! -z "$(grep Microsoft /proc/version)" ]; then
 	gatsby_dir=$(wslpath -m ${gatsby_dir})
 	echo "WSL detected. Converted gatsby_dir to ${gatsby_dir}"
 fi
@@ -83,7 +83,7 @@ w
 q
 ARG
 
-cd .. || { echo "Could not change to $(dirname $(pwd))"; exit 1; }
+cd .. || { echo "Could not 'cd ..' from $(pwd)"; exit 1; }
 
 #
 # Modify docker build as needed 

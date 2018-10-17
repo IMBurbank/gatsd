@@ -19,7 +19,7 @@ if [ ! "$(docker ps -q -f name=${TAG_NAME})" ]; then
 		--name "${TAG_NAME}" \
 		-p "${GATSBY_PORT}:${GATSBY_PORT}" \
 		-u "$(id -u):$(id -g)" \
-		-v "${GATSBY_DIR}:${WORK_DIR}" \
+		-v "${GATSBY_DIR}:${WORK_DIR}:rw" \
 		-w "${WORK_DIR}" \
 		"${TAG_NAME}" \
 		"$@"
