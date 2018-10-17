@@ -2,7 +2,7 @@
 # Copied to container path /.bashrc
 # Loaded by container entrypoint
 
-### Environment settings below can be overridden by auto-generated build-env
+# Environment settings below can be overridden by auto-generated build-env
 export GATSDENV_LOADED="true"
 
 
@@ -11,4 +11,4 @@ export GATSDENV_LOADED="true"
 ### END BUILD-ENV
 
 
-### Environment settings below can override auto-generated build-env
+# Environment settings below can override auto-generated build-env
