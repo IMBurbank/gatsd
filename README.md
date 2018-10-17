@@ -29,7 +29,7 @@ RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest |
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
-Releases can also be selected by version, such as `RELEASE=0.3.2`
+Releases can also be selected by version, such as `RELEASE=0.3.3`
 
 3. Initialize Gatsby project with GatsD.
 
@@ -60,7 +60,7 @@ RELEASE=$(curl -s https://api.github.com/repos/imburbank/gatsd/releases/latest |
 curl -L https://www.github.com/imburbank/gatsd/archive/v${RELEASE}.tar.gz | tar xzv gatsd-${RELEASE}/gatsd/ --strip=1
 ```
 
-Releases can also be selected by version, such as `RELEASE=0.3.2`
+Releases can also be selected by version, such as `RELEASE=0.3.3`
 
 3. Initialize GatsD.
 

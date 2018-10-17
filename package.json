@@ -1,6 +1,6 @@
 {
   "name": "gatsd",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Dockerize Your GatsbyJS Project",
   "main": "n/a",
   "scripts": {
