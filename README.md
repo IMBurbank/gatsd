@@ -1,6 +1,6 @@
 # GatsD - The GatsbyJS Project Dockerizer
 
-Develop any [GatsbyJS](https://www.gatsbyjs.org/) project without the need for dependency management on your local machine - beyond a working installation of [Docker](https://docs.docker.com/install/), of course.
+Develop any [GatsbyJS](https://www.gatsbyjs.org/ 'Gatsby Homepage') project without the need for dependency management on your local machine - beyond a working installation of [Docker](https://docs.docker.com/install/ 'Docker Install Docs'), of course.
 
 Maintain all the conveniences and power of Gatsby without the need to download or maintain version consistency of anything global -- node, npm, yarn, gatsby-cli, vips, fftw or any other obscure global package. 
 
@@ -40,7 +40,7 @@ Releases can also be selected by version, such as `RELEASE=0.3.3`
 ./gatsd/new
 ```
 
-GatsD will build the Docker container and download the selected Gatsby starter template from github. By default, container will be tagged with the `mysite` name. If no site is passed as an argument to `./gatsd/new`, then the `gatsby-starter-default` template will be downloaded.
+GatsD will build the Docker container and download the selected Gatsby starter template from github. By default, container will be tagged with the `mysite` name. If no site is passed as an argument to `./gatsd/new`, then the `https://github.com/gatsbyjs/gatsby-starter-default` template will be downloaded.
 
 The project directory will be accessible from inside the container and any changes made to the project inside the container or on the local host will be visible to both.
 
@@ -106,11 +106,11 @@ GatsD's standard commands are wrappers to invoke Gatsby-CLI commands within the 
 
 The following commands are available
 
--   `gatsd develop` -- Will start a hot-reloading development environment accessible at http://0.0.0.0:8000.
+-   `gatsd develop` -- Will start a hot-reloading development environment accessible at `http://0.0.0.0:8000`.
 
 -   `gatsd build` -- Will invoke `gatsby build` inside the container to create an optimized production build of the site.
 
--   `gatsd serve` -- Will start a local HTML server to serve the production site locally at http://localhost:8000.
+-   `gatsd serve` -- Will start a local HTML server to serve the production site locally at `http://localhost:8000`.
 
 -   `gatsd stage` -- GatsD will invoke `gatsd build` and `gatsd serve` to stage a local production build of your site.
 
@@ -214,18 +214,18 @@ GatsD is *generally* working on Windows &mdash; with the following exceptions/li
 
 ### Windows Subsystem for Linux (WSL)
 
-Windows compatibility has only been tested using Windows 10 with [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL).
+Windows compatibility has only been tested using Windows 10 with [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about 'About WSL') (WSL).
 
 Since Windows programs can't safely change files within the local Linux filesystem, development should be done on one of your normal local drives (such as C: or D:). 
 
 ### Dev Server Event Handling
 
-It is a [known issue](https://docs.docker.com/docker-for-windows/troubleshoot/#volumes) in Docker for Windows that inotify does not work on shared volumes. This means that running `gatsby develop` in a docker container and editing the files locally will not trigger webpack-dev-server updates.
+It is a [known issue](https://docs.docker.com/docker-for-windows/troubleshoot/#volumes 'Docker-for-Windows Troubleshooting - Volumes') in Docker for Windows that inotify does not work on shared volumes. This means that running `gatsby develop` in a docker container and editing the files locally will not trigger webpack-dev-server updates.
 
 This limitation can be addressed in a few ways:
 
 -	Save file edits inside the running Docker container to trigger watch events normally.
--	Turn on polling within the file-watcher used by Gatsby ([chokidar](https://www.npmjs.com/package/chokidar)) (I am currently looking into better support along this avenue).
+-	Turn on polling within the file-watcher used by Gatsby ([chokidar](https://www.npmjs.com/package/chokidar 'Chokidar NPM Package')).
 -	Set up you own preferred file-watcher to send events to the dev-server.
 
 Ideally, Windows and Docker will get this issue worked out. Until then, I'll update this section with additional advice on inotify events as I get them.
