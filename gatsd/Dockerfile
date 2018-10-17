@@ -30,9 +30,9 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> ${REPOS} && \
         openssl \
         git \
         curl \
-        yarn \
-        && \
-    yarn global add \
+        yarn
+        
+RUN yarn global add \
         gatsby-cli \
         netlify-cli \
         surge 
