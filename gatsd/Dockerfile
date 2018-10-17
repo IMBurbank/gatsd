@@ -12,9 +12,7 @@ ARG GATSD_DIR="${WORK_DIR}/${GATSD_DIRNAME}"
 ARG SHIM_DIR=/bin
 ARG REPOS=/etc/apk/repositories
 
-RUN echo http://nl.alpinelinux.org/alpine/edge/main >> ${REPOS} && \
-    echo http://nl.alpinelinux.org/alpine/edge/community >> ${REPOS} && \
-    echo http://nl.alpinelinux.org/alpine/edge/testing >> ${REPOS} && \
+RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> ${REPOS} && \
     apk update && \
     apk upgrade && \
     apk add --no-cache \
