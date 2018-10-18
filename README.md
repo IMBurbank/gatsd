@@ -165,7 +165,7 @@ gatsby develop --help
 
 ## Adding Local Node Modules
 
-Adding local packages is simple. Call `yarn` as you would any other command and the `node_moduled` will download to their usual place in the project directory shared between the host machine the the container.
+Adding local packages is simple. Call `yarn` as you would any other command and the `node_modules` will download to their usual place in the project directory shared between the host machine the the container.
 
 From the host machine:
 ```shell
