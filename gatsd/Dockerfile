@@ -10,27 +10,28 @@ ARG WORK_DIR="/${SITE_NAME}"
 ARG GATSD_DIRNAME=gatsd
 ARG GATSD_DIR="${WORK_DIR}/${GATSD_DIRNAME}"
 ARG SHIM_DIR=/bin
-ARG REPOS=/etc/apk/repositories
 
-RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> ${REPOS} && \
-    apk update && \
+RUN apk update && \
     apk upgrade && \
-    apk add --no-cache \
-        build-base \
-        util-linux \
-        vips \
-        vips-dev \
-        vips-tools \
-        fftw \
-        fftw-dev \
+    apk add --update --no-cache \
         bash \
-        bash-doc \
         bash-completion \
+        bash-doc \
+        build-base \
         ca-certificates \
-        openssl \
-        git \
         curl \
-        yarn
+        fftw-dev \
+        g++ \
+        gcc \
+        git \
+        libc6-compat \
+        make \
+        openssl \
+        util-linux \
+        vips-dev \
+        yarn \
+        --repository http://mirror.clarkson.edu/alpine/edge/testing/ \
+        --repository http://mirror.clarkson.edu/alpine/edge/main
         
 RUN yarn global add \
         gatsby-cli \
